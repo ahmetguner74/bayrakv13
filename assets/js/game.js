@@ -89,14 +89,20 @@ class FlagGame {
             console.log('Bayraklar yükleniyor...');
             this.elements.loading.style.display = 'flex';
             
-            // GitHub Pages'de çalışması için yolu düzelt
-            const response = await fetch('/bayrakv13/flags.json');
+            // Doğru yolu kullan
+            const response = await fetch('assets/data/flags.json');
             if (!response.ok) {
                 throw new Error(`Bayrak verileri yüklenemedi: ${response.status}`);
             }
             
             this.countries = await response.json();
             console.log(`${this.countries.length} bayrak yüklendi`);
+            
+            // Zorluk seviyesi olmayan bayraklara varsayılan zorluk seviyesi ata
+            this.countries = this.countries.map(country => ({
+                ...country,
+                difficulty: country.difficulty || 'MEDIUM'
+            }));
             
             this.elements.loading.style.display = 'none';
             return true;
@@ -184,29 +190,25 @@ class FlagGame {
     }
 
     getRandomCountries() {
-        // Mevcut zorluk seviyesine göre bayrakları filtrele
+        // Zorluk seviyesi belirtilmemiş bayraklar için varsayılan zorluk seviyesini kullan
         const filteredCountries = this.countries.filter(country => 
-            country.difficulty === this.difficulty
+            !country.difficulty || country.difficulty === this.difficulty
         );
         
         console.log(`${filteredCountries.length} bayrak mevcut zorluk seviyesinde (${this.difficulty})`);
         
         if (filteredCountries.length < GAME_CONFIG.OPTIONS[this.difficulty]) {
-            console.error('Yeterli bayrak yok!');
-            return [];
+            // Yeterli bayrak yoksa tüm bayrakları kullan
+            console.log('Seçilen zorluk seviyesi için yeterli bayrak yok, tüm bayraklar kullanılıyor');
+            return this.getRandomFromArray(this.countries, GAME_CONFIG.OPTIONS[this.difficulty]);
         }
 
-        const selectedCountries = [];
-        const tempCountries = [...filteredCountries];
-        
-        for (let i = 0; i < GAME_CONFIG.OPTIONS[this.difficulty]; i++) {
-            if (tempCountries.length === 0) break;
-            const randomIndex = getRandomInt(tempCountries.length);
-            selectedCountries.push(tempCountries[randomIndex]);
-            tempCountries.splice(randomIndex, 1);
-        }
-        
-        return selectedCountries;
+        return this.getRandomFromArray(filteredCountries, GAME_CONFIG.OPTIONS[this.difficulty]);
+    }
+
+    getRandomFromArray(array, count) {
+        const shuffled = [...array].sort(() => 0.5 - Math.random());
+        return shuffled.slice(0, count);
     }
 
     useHint() {
