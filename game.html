@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bayrak Bilmece</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Bayrak Bilmece</h1>
+            <div class="stats">
+                <div class="score">Skor: <span id="score">0</span></div>
+                <div class="timer">Süre: <span id="time">30</span></div>
+                <div class="high-score">En Yüksek Skor: <span id="high-score">0</span></div>
+            </div>
+        </header>
+        
+        <main>
+            <div class="flag-container">
+                <img id="flag-image" src="" alt="Ülke Bayrağı">
+            </div>
+            
+            <div class="options-container">
+                <button class="option"></button>
+                <button class="option"></button>
+                <button class="option"></button>
+                <button class="option"></button>
+            </div>
+
+            <div class="controls">
+                <button id="hint-btn" class="control-btn">İpucu</button>
+                <button id="start-btn" class="control-btn">Yeni Oyun</button>
+            </div>
+        </main>
+
+        <div id="game-over" class="modal hidden">
+            <div class="modal-content">
+                <h2>Oyun Bitti!</h2>
+                <p>Skorunuz: <span id="final-score">0</span></p>
+                <button id="restart-btn" class="control-btn">Tekrar Oyna</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ses Efektleri -->
+    <audio id="correct-sound" src="public/sounds/correct.mp3"></audio>
+    <audio id="wrong-sound" src="public/sounds/wrong.mp3"></audio>
+    <audio id="game-over-sound" src="public/sounds/game-over.mp3"></audio>
+    <audio id="hint-sound" src="public/sounds/hint.mp3"></audio>
+    <audio id="tick-sound" src="public/sounds/tick.mp3"></audio>
+
+    <script src="script.js"></script>
+</body>
+</html> 

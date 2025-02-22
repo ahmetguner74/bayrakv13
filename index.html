@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bayrak Bilmece Oyunu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #1a73e8 0%, #6c47ff 100%);
+            padding: 1rem;
+            color: #333;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.98);
+            padding: 3rem 2rem;
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 90%;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #1a73e8;
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            color: #5f6368;
+            font-size: 1.4rem;
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .feature {
+            flex: 1;
+            min-width: 200px;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 16px;
+            color: #1a73e8;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature p {
+            font-size: 1rem;
+            margin-bottom: 0;
+            color: #5f6368;
+        }
+
+        .start-btn {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, #1a73e8 0%, #4285f4 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(26, 115, 232, 0.3);
+        }
+
+        .start-btn:hover {
+            background: linear-gradient(135deg, #1557b0 0%, #1a73e8 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(26, 115, 232, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            p {
+                font-size: 1.2rem;
+            }
+
+            .features {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .feature {
+                min-width: 100%;
+            }
+
+            .container {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            p {
+                font-size: 1.1rem;
+            }
+
+            .start-btn {
+                padding: 1rem 2.5rem;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bayrak Bilmece Oyunu</h1>
+        <p>Dünya bayraklarını ne kadar iyi tanıyorsunuz? 255 farklı bayrak ile kendinizi test edin!</p>
+        
+        <div class="features">
+            <div class="feature">
+                <h3>255 Bayrak</h3>
+                <p>Dünyanın dört bir yanından bayraklar</p>
+            </div>
+            <div class="feature">
+                <h3>30 Saniye</h3>
+                <p>Hızlı düşün, doğru seç!</p>
+            </div>
+            <div class="feature">
+                <h3>3 İpucu Hakkı</h3>
+                <p>Zorlandığında ipucu kullan</p>
+            </div>
+        </div>
+
+        <a href="game.html" class="start-btn">Oyunu Başlat</a>
+    </div>
+</body>
+</html> 
