@@ -3,6 +3,7 @@ import { LanguageManager, SoundManager, AnimationManager, getRandomInt, shuffleA
 
 class FlagGame {
     constructor() {
+        console.log('FlagGame başlatılıyor...');
         this.initializeManagers();
         this.initializeGameState();
         this.initializeElements();
@@ -10,12 +11,14 @@ class FlagGame {
     }
 
     initializeManagers() {
+        console.log('Yöneticiler başlatılıyor...');
         this.languageManager = new LanguageManager(LANGUAGE_CONFIG);
         this.soundManager = new SoundManager(SOUND_CONFIG);
         this.difficulty = localStorage.getItem('difficulty') || 'MEDIUM';
     }
 
     initializeGameState() {
+        console.log('Oyun durumu başlatılıyor...');
         this.countries = [];
         this.currentFlag = null;
         this.score = 0;
@@ -23,11 +26,11 @@ class FlagGame {
         this.hintsLeft = GAME_CONFIG.HINTS[this.difficulty];
         this.isGameActive = false;
         this.timer = null;
-        this.highScore = localStorage.getItem('highScore') || 0;
+        this.highScore = parseInt(localStorage.getItem('highScore')) || 0;
     }
 
     initializeElements() {
-        // DOM elementleri
+        console.log('DOM elementleri başlatılıyor...');
         this.elements = {
             flagImage: document.getElementById('flag-image'),
             options: document.querySelectorAll('.option'),
@@ -83,22 +86,30 @@ class FlagGame {
 
     async loadFlags() {
         try {
+            console.log('Bayraklar yükleniyor...');
             this.elements.loading.style.display = 'flex';
-            const response = await fetch('assets/data/flags.json');
-            if (!response.ok) throw new Error('Bayrak verileri yüklenemedi');
+            
+            // GitHub Pages'de çalışması için yolu düzelt
+            const response = await fetch('/bayrakv13/flags.json');
+            if (!response.ok) {
+                throw new Error(`Bayrak verileri yüklenemedi: ${response.status}`);
+            }
             
             this.countries = await response.json();
+            console.log(`${this.countries.length} bayrak yüklendi`);
+            
             this.elements.loading.style.display = 'none';
             return true;
         } catch (error) {
             console.error('Bayraklar yüklenirken hata:', error);
-            alert(this.languageManager.getText('error'));
+            alert(`Bayrak verileri yüklenirken hata oluştu: ${error.message}`);
             this.elements.loading.style.display = 'none';
             return false;
         }
     }
 
     async startGame() {
+        console.log('Oyun başlatılıyor...');
         if (this.countries.length === 0) {
             const loaded = await this.loadFlags();
             if (!loaded) return;
@@ -111,7 +122,9 @@ class FlagGame {
         this.elements.time.textContent = formatTime(this.timeLeft);
         this.elements.hint.textContent = `${this.languageManager.getText('hint')} (${this.hintsLeft})`;
         
-        AnimationManager.fadeOut(this.elements.gameOver);
+        if (this.elements.gameOver) {
+            this.elements.gameOver.style.display = 'none';
+        }
         
         if (this.timer) clearInterval(this.timer);
         this.timer = setInterval(() => this.updateTimer(), 1000);
@@ -147,8 +160,9 @@ class FlagGame {
     }
 
     createNewQuestion() {
+        console.log('Yeni soru oluşturuluyor...');
         if (this.countries.length < GAME_CONFIG.OPTIONS[this.difficulty]) {
-            alert(this.languageManager.getText('error'));
+            alert('Yeterli bayrak verisi yok!');
             this.endGame();
             return;
         }
@@ -156,8 +170,11 @@ class FlagGame {
         const selectedCountries = this.getRandomCountries();
         this.currentFlag = selectedCountries[getRandomInt(selectedCountries.length)];
         
-        this.elements.flagImage.src = `public/flags/${this.currentFlag.code}.svg`;
+        // GitHub Pages'de çalışması için yolu düzelt
+        this.elements.flagImage.src = `/bayrakv13/public/flags/${this.currentFlag.code}.svg`;
         this.elements.flagImage.alt = `${this.currentFlag.name_tr} bayrağı`;
+        
+        console.log('Seçilen bayrak:', this.currentFlag);
         
         shuffleArray(selectedCountries);
         this.elements.options.forEach((option, index) => {
@@ -227,5 +244,6 @@ class FlagGame {
 
 // Oyunu başlat
 document.addEventListener('DOMContentLoaded', () => {
-    const game = new FlagGame();
+    console.log('Sayfa yüklendi, oyun başlatılıyor...');
+    window.game = new FlagGame();
 }); 
