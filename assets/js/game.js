@@ -184,8 +184,20 @@ class FlagGame {
     }
 
     getRandomCountries() {
+        // Mevcut zorluk seviyesine göre bayrakları filtrele
+        const filteredCountries = this.countries.filter(country => 
+            country.difficulty === this.difficulty
+        );
+        
+        console.log(`${filteredCountries.length} bayrak mevcut zorluk seviyesinde (${this.difficulty})`);
+        
+        if (filteredCountries.length < GAME_CONFIG.OPTIONS[this.difficulty]) {
+            console.error('Yeterli bayrak yok!');
+            return [];
+        }
+
         const selectedCountries = [];
-        const tempCountries = [...this.countries];
+        const tempCountries = [...filteredCountries];
         
         for (let i = 0; i < GAME_CONFIG.OPTIONS[this.difficulty]; i++) {
             if (tempCountries.length === 0) break;

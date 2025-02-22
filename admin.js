@@ -2,7 +2,9 @@
 const flagsList = document.getElementById('flags-list');
 const addFlagForm = document.getElementById('add-flag-form');
 const countryCodeInput = document.getElementById('country-code');
-const countryNameInput = document.getElementById('country-name');
+const countryNameTrInput = document.getElementById('country-name-tr');
+const countryNameEnInput = document.getElementById('country-name-en');
+const difficultySelect = document.getElementById('difficulty');
 const csvUpload = document.getElementById('csv-upload');
 const uploadBtn = document.getElementById('upload-btn');
 
@@ -55,6 +57,7 @@ function updateFlagsList() {
             <td>${country.code.toUpperCase()}</td>
             <td>${country.name_tr}</td>
             <td>${country.name_en}</td>
+            <td>${country.difficulty || 'MEDIUM'}</td>
             <td>
                 <img src="public/flags/${country.code}.svg" 
                      alt="${country.name_tr} bayrağı" 
@@ -72,20 +75,18 @@ function updateFlagsList() {
 }
 
 // Yeni bayrak ekle
-function addFlag(code, name_tr, name_en = '') {
+function addFlag(code, name_tr, name_en = '', difficulty = 'MEDIUM') {
     // Ülke kodu zaten var mı kontrol et
     if (countries.some(country => country.code === code)) {
         alert('Bu ülke kodu zaten mevcut!');
         return false;
     }
     
-    // İngilizce isim verilmediyse Türkçe ismi kullan
-    if (!name_en) name_en = name_tr;
-    
     countries.push({
         code: code,
         name_tr: name_tr,
-        name_en: name_en
+        name_en: name_en || name_tr,
+        difficulty: difficulty
     });
 
     updateFlagsList();
@@ -126,11 +127,15 @@ function processCSV(csv) {
 addFlagForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const code = countryCodeInput.value.toLowerCase();
-    const name_tr = countryNameInput.value;
+    const name_tr = countryNameTrInput.value;
+    const name_en = countryNameEnInput.value;
+    const difficulty = difficultySelect.value;
     
-    if (addFlag(code, name_tr)) {
+    if (addFlag(code, name_tr, name_en, difficulty)) {
         countryCodeInput.value = '';
-        countryNameInput.value = '';
+        countryNameTrInput.value = '';
+        countryNameEnInput.value = '';
+        difficultySelect.value = 'MEDIUM';
     }
 });
 
