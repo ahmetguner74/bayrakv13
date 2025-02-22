@@ -83,16 +83,17 @@ class FlagGame {
 
     async loadFlags() {
         try {
-            AnimationManager.fadeIn(this.elements.loading);
+            this.elements.loading.style.display = 'flex';
             const response = await fetch('assets/data/flags.json');
             if (!response.ok) throw new Error('Bayrak verileri yüklenemedi');
             
             this.countries = await response.json();
-            AnimationManager.fadeOut(this.elements.loading);
+            this.elements.loading.style.display = 'none';
             return true;
         } catch (error) {
             console.error('Bayraklar yüklenirken hata:', error);
             alert(this.languageManager.getText('error'));
+            this.elements.loading.style.display = 'none';
             return false;
         }
     }

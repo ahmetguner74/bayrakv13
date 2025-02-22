@@ -1,0 +1,12 @@
+[
+    {"code": "tr", "name_tr": "Türkiye", "name_en": "Turkey"},
+    {"code": "us", "name_tr": "Amerika Birleşik Devletleri", "name_en": "United States"},
+    {"code": "gb", "name_tr": "Birleşik Krallık", "name_en": "United Kingdom"},
+    {"code": "de", "name_tr": "Almanya", "name_en": "Germany"},
+    {"code": "fr", "name_tr": "Fransa", "name_en": "France"},
+    {"code": "it", "name_tr": "İtalya", "name_en": "Italy"},
+    {"code": "es", "name_tr": "İspanya", "name_en": "Spain"},
+    {"code": "cn", "name_tr": "Çin", "name_en": "China"},
+    {"code": "jp", "name_tr": "Japonya", "name_en": "Japan"},
+    {"code": "br", "name_tr": "Brezilya", "name_en": "Brazil"}
+] 
