@@ -89,7 +89,6 @@ class FlagGame {
             console.log('Bayraklar yükleniyor...');
             this.elements.loading.style.display = 'flex';
             
-            // Doğru yolu kullan
             const response = await fetch('assets/data/flags.json');
             if (!response.ok) {
                 throw new Error(`Bayrak verileri yüklenemedi: ${response.status}`);
@@ -167,7 +166,9 @@ class FlagGame {
 
     createNewQuestion() {
         console.log('Yeni soru oluşturuluyor...');
-        if (this.countries.length < GAME_CONFIG.OPTIONS[this.difficulty]) {
+        const optionsCount = GAME_CONFIG.OPTIONS[this.difficulty];
+        
+        if (this.countries.length < optionsCount) {
             alert('Yeterli bayrak verisi yok!');
             this.endGame();
             return;
@@ -176,16 +177,21 @@ class FlagGame {
         const selectedCountries = this.getRandomCountries();
         this.currentFlag = selectedCountries[getRandomInt(selectedCountries.length)];
         
-        // GitHub Pages'de çalışması için yolu düzelt
-        this.elements.flagImage.src = `/bayrakv13/public/flags/${this.currentFlag.code}.svg`;
+        // Bayrak yolunu düzelt
+        this.elements.flagImage.src = `public/flags/${this.currentFlag.code}.svg`;
         this.elements.flagImage.alt = `${this.currentFlag.name_tr} bayrağı`;
         
         console.log('Seçilen bayrak:', this.currentFlag);
         
         shuffleArray(selectedCountries);
         this.elements.options.forEach((option, index) => {
-            option.textContent = selectedCountries[index][`name_${this.languageManager.currentLang}`];
-            option.classList.remove('correct', 'wrong', 'disabled');
+            if (index < selectedCountries.length) {
+                option.style.display = 'block';
+                option.textContent = selectedCountries[index][`name_${this.languageManager.currentLang}`];
+                option.classList.remove('correct', 'wrong', 'disabled');
+            } else {
+                option.style.display = 'none';
+            }
         });
     }
 

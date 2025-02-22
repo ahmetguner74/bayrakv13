@@ -1,3 +1,5 @@
+import { ADMIN_CONFIG } from './config.js';
+
 // Dil yönetimi
 export class LanguageManager {
     constructor(config) {
